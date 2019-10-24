@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+//Vuforia project
 namespace AR
 {
 
