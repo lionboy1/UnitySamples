@@ -11,7 +11,11 @@ namespace AR
         public GameObject markerGoal;
         //Parent position.
         Vector3 parentPos;
+        //Agent
         NavMeshAgent agent;
+        
+        //Sprite
+        public Sprite destSprite;
 
 
 
@@ -32,6 +36,7 @@ namespace AR
             {
                 parentPos = markerGoal.transform.parent.position;
                 agent.SetDestination(parentPos);
+                destSprite.transform.position = new Vector3(parentPos.x, 0, parentPos.z);
             }
         }
 
