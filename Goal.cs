@@ -21,4 +21,6 @@ namespace AR
             line.SetPosition(0, transform.parent.position);
             //Marker position relative to surface.
             line.SetPosition(1, new Vector3(transform.parent.position.x, 0, transform.parent.position.z));
+	}
+     }		
 }
