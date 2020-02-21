@@ -14,7 +14,7 @@
                 exit;
 	}
                 
-        $sql = "INSERT INTO JunkCars ( make, model, trim, year, quantity ) VALUES ('$make', '$model', '$trim', $year, $quantity)";
+        $sql = "INSERT INTO JunkCars ( make, model, trim, year, quantity ) VALUES ('$make', '$model', '$trim', '$year', '$quantity')";
         
         if(mysqli_query($con, $sql)){
                 echo "Records inserted successfully.";
