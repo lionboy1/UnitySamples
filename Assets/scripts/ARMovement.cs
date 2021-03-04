@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 //Vuforia project
 namespace AR
@@ -15,13 +16,17 @@ namespace AR
         NavMeshAgent agent;
         
         //Sprite
-        public Sprite destSprite;
+        public SpriteRenderer destSprite;
 
 
 
         void Start()
         {
             agent = GetComponent<NavMeshAgent>();
+            if(agent == null)
+            {
+                Debug.LogError("No NavMeshAgent found!");
+            }
         }
 
         void Update()
@@ -32,7 +37,7 @@ namespace AR
 
         void MoveToTarget()
         {
-            if (markerGoal.active)
+            if (markerGoal.activeInHierarchy)
             {
                 parentPos = markerGoal.transform.parent.position;
                 agent.SetDestination(parentPos);

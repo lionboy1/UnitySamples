@@ -12,7 +12,12 @@ namespace AR
         void Start()
         {
             line = GetComponent<LineRenderer>();
-            line.SetWidth( .05f, .05f);
+            if(line == null)
+            {
+                Debug.LogError("Line Renderer not found!");
+            }
+            line.startWidth =  0.05f;
+            line.endWidth = 0.05f;
         }
 
         void Update()
