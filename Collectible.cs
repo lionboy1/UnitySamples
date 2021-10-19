@@ -1,18 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
-    // Start is called before the first frame update
+    Player player;
     void Start()
     {
         
+        player = GameObject.Find("Player").GetComponent<Player>();
+        if(player == null)
+        {
+            Debug.Log("No player component found");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    
+    void OnTriggerEnter(Collider col)
     {
-        
+        if(col.gameObject.tag == "Player")
+        {
+            Destroy(this.gameObject);
+            player.AddCoins();
+
+        }
     }
 }
