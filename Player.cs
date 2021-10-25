@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     [SerializeField] float speed  = 5f;
     [SerializeField] float gravity = 2f;
     [SerializeField] float jumpHeight = 18f;
+    [SerializeField] int _lives = 3;
+    [SerializeField] Transform _spawn;
     bool inAir;
     
     //Cache y velocity to prevent snapping at the end of frame
@@ -62,6 +64,7 @@ public class Player : MonoBehaviour
         velocity.y = yVelocity;
 
         _ccontrol.Move(velocity * Time.deltaTime);
+        LivesLeft();
     }
 
     public void AddCoins()
@@ -69,4 +72,29 @@ public class Player : MonoBehaviour
         _coins++;
         _ui.UpdateCoinAmount(_coins);
     }
+
+    void LoseLife()
+    {
+        _lives--;
+    }
+
+    void LivesLeft()
+    {
+        _ui.UpdateLives(_lives);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Die")
+        {
+            LoseLife();
+            Invoke("Respawn", 0.3f);
+        }
+    }
+
+    void Respawn()
+    {
+        transform.position = _spawn.position;
+    }
+    
 }

@@ -5,11 +5,16 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] Text _coinAmount;
+    [SerializeField] Text _coinAmount, _lives;
    
     // Update is called once per frame
     public void UpdateCoinAmount(int numCoins)
     {
         _coinAmount.text = "Collected " + numCoins;
+    }
+
+    public void UpdateLives(int life)
+    {
+        _lives.text = "Life: " + life.ToString();
     }
 }
