@@ -44,7 +44,7 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         float horiz = Input.GetAxis("Horizontal");
         Vector3 direction = new Vector3(horiz, 0, 0);
@@ -53,30 +53,34 @@ public class Player : MonoBehaviour
         if(_ccontrol.isGrounded)
         {
             inAir = false;
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetKey(KeyCode.Space) && !inAir)
             {
                 yVelocity = jumpHeight;
                 inAir = true;
-                //m_animator.SetTrigger("Jump");
-                m_animator.SetInteger("AnimationID", 14);
+                
+                m_animator.ResetTrigger("Idle");
+                m_animator.SetTrigger("Jump");
             }
+            
+            /*if(Input.GetKeyUp(KeyCode.Space))
+            {
+                Debug.LogError("Space key released.");
+                m_animator.ResetTrigger("Jump");
+                m_animator.SetTrigger("Idle");
+            }*/
         }
         else
         {
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetKeyUp(KeyCode.Space))
             {
-                if(inAir)
-                {
-                    yVelocity += jumpHeight;
-                    inAir = false;
-                    //m_animator.ResetTrigger("Jump");
-                }
+                //yVelocity += jumpHeight;
+                m_animator.ResetTrigger("Jump");
+                m_animator.SetTrigger("Idle");
+                inAir = false;
             }
             yVelocity -= gravity;
         }
-        
         velocity.y = yVelocity;
-
         _ccontrol.Move(velocity * Time.deltaTime);
         LivesLeft();
         TurnLeft();
@@ -89,7 +93,7 @@ public class Player : MonoBehaviour
         _ui.UpdateCoinAmount(_coins);
     }
 
-    void LoseLife()
+    public void LoseLife()
     {
         _lives--;
     }
@@ -99,14 +103,7 @@ public class Player : MonoBehaviour
         _ui.UpdateLives(_lives);
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Die")
-        {
-            LoseLife();
-            Invoke("Respawn", 0.3f);
-        }
-    }
+    
 
     void Respawn()
     {
