@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     public void UpdateCoinAmount(int numCoins)
     {
-        _coinAmount.text = "Collected " + numCoins;
+        _coinAmount.text = "Collected " + numCoins.ToString();
     }
 
     public void UpdateLives(int life)

@@ -11,12 +11,18 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpHeight = 18f;
     [SerializeField] int _lives = 3;
     [SerializeField] Transform _spawn;
+    [SerializeField] Transform _frog;
     bool inAir;
+    Transform _lasPos;
+    [SerializeField] Transform right;
+    [SerializeField] Transform left;
+    [SerializeField] Animator m_animator;
     
     //Cache y velocity to prevent snapping at the end of frame
     //when direction is reset to a y value of 0
     float yVelocity;
     int _coins;
+    float yRot;
 
     void Start()
     {
@@ -29,6 +35,11 @@ public class Player : MonoBehaviour
          if(_ui == null)
         {
             Debug.Log("No UI Manager found!");
+        }
+        m_animator = GetComponentInChildren<Animator>();
+        if(m_animator == null)
+        {
+            Debug.LogError("No animator component found!");
         }
     }
 
@@ -46,6 +57,8 @@ public class Player : MonoBehaviour
             {
                 yVelocity = jumpHeight;
                 inAir = true;
+                //m_animator.SetTrigger("Jump");
+                m_animator.SetInteger("AnimationID", 14);
             }
         }
         else
@@ -56,6 +69,7 @@ public class Player : MonoBehaviour
                 {
                     yVelocity += jumpHeight;
                     inAir = false;
+                    //m_animator.ResetTrigger("Jump");
                 }
             }
             yVelocity -= gravity;
@@ -65,6 +79,8 @@ public class Player : MonoBehaviour
 
         _ccontrol.Move(velocity * Time.deltaTime);
         LivesLeft();
+        TurnLeft();
+        TurnRight();
     }
 
     public void AddCoins()
@@ -96,5 +112,20 @@ public class Player : MonoBehaviour
     {
         transform.position = _spawn.position;
     }
-    
+
+    void TurnLeft()
+    {
+        if(Input.GetKey(KeyCode.LeftArrow))
+        {
+            _frog.LookAt(left, Vector3.up);
+        }
+    }
+
+    void TurnRight()
+    {
+        if(Input.GetKey(KeyCode.RightArrow))
+        {
+            _frog.LookAt(right, Vector3.up);
+        }
+    }
 }
