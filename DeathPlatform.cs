@@ -22,7 +22,6 @@ public class DeathPlatform : MonoBehaviour
         if(other.tag == "Player")
         {
             _player.LoseLife();
-            Invoke("Respawn", 0.3f);
         }
     }
 }

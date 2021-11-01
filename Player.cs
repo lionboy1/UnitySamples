@@ -96,6 +96,7 @@ public class Player : MonoBehaviour
     public void LoseLife()
     {
         _lives--;
+        Invoke("Respawn", 0.3f);
     }
 
     void LivesLeft()
