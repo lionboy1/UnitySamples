@@ -8,7 +8,7 @@ public class BugSpawn : MonoBehaviour
     [SerializeField] GameObject[] _bugs;
     [SerializeField] Transform[] _spawnPoints;
     int _spawns;
-    GameObject choice;
+    GameObject chosen;
     void Start()
     {
         //Flexible way to cache the number of GOs to be spawn.  
@@ -17,17 +17,8 @@ public class BugSpawn : MonoBehaviour
         for(int j = 0; j < _spawnPoints.Length; j++)
         {
             int _spawns = Random.Range(0, _bugs.Length);
-            choice = _bugs[_spawns];
-            GameObject bugRef = Instantiate(choice, _spawnPoints[j].position, Quaternion.identity);
-            /*
-            for(int i = 0; i < 2; i++)
-            {
-            
-                choice = _spawns[]
-                GameObject bugRef = Instantiate(_bugs[i], _spawnPoints[j].position, Quaternion.identity);
-                Debug.Log("Spawning at " + _spawnPoints[j].name);
-            }
-            */
+            chosen = _bugs[_spawns];
+            GameObject bugRef = Instantiate(chosen, _spawnPoints[j].position, Quaternion.Euler(0.0f,90f,0.0f));
         }
     }
 

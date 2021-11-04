@@ -10,15 +10,16 @@ public class Player : MonoBehaviour
     [SerializeField] float gravity = 2f;
     [SerializeField] float jumpHeight = 18f;
     [SerializeField] int _lives = 3;
-    [SerializeField] Transform _spawn;
+    public Transform _spawnPoint;
     [SerializeField] Transform _frog;
     bool inAir;
     Transform _lasPos;
     [SerializeField] Transform right;
     [SerializeField] Transform left;
     [SerializeField] Animator m_animator;
+    CharacterController _cc;
     
-    //Cache y velocity to prevent snapping at the end of frame
+    //Cache y velocity to prevent jerky movement at the end of frame
     //when direction is reset to a y value of 0
     float yVelocity;
     int _coins;
@@ -41,9 +42,13 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("No animator component found!");
         }
+        _cc = GetComponent<CharacterController>();
+        if(_cc == null)
+        {
+            Debug.LogError("No character controller found");
+        }
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         float horiz = Input.GetAxis("Horizontal");
@@ -61,13 +66,6 @@ public class Player : MonoBehaviour
                 m_animator.ResetTrigger("Idle");
                 m_animator.SetTrigger("Jump");
             }
-            
-            /*if(Input.GetKeyUp(KeyCode.Space))
-            {
-                Debug.LogError("Space key released.");
-                m_animator.ResetTrigger("Jump");
-                m_animator.SetTrigger("Idle");
-            }*/
         }
         else
         {
@@ -96,19 +94,24 @@ public class Player : MonoBehaviour
     public void LoseLife()
     {
         _lives--;
-        Invoke("Respawn", 0.3f);
+        _cc.enabled = false;
     }
 
     void LivesLeft()
     {
         _ui.UpdateLives(_lives);
+        if(_lives < 0)
+        {
+            _lives = 0;
+        }
     }
-
-    
-
-    void Respawn()
+    public void EnableCC()
     {
-        transform.position = _spawn.position;
+        _cc.enabled = true;
+    }
+    public bool CanPlay()
+    {
+        return _lives > 0;
     }
 
     void TurnLeft()

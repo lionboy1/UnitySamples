@@ -22,6 +22,17 @@ public class DeathPlatform : MonoBehaviour
         if(other.tag == "Player")
         {
             _player.LoseLife();
+            other.transform.position = _player._spawnPoint.position;
+            if(_player.CanPlay())
+            {
+                _player.EnableCC();
+            }
+            else
+            {
+                other.transform.position = _player._spawnPoint.position;
+                other.transform.parent = null;
+            }
+            
         }
     }
 }
