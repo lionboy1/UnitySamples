@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField] Transform left;
     [SerializeField] Animator m_animator;
     CharacterController _cc;
+    public Fauna faun;
     
     //Cache y velocity to prevent jerky movement at the end of frame
     //when direction is reset to a y value of 0
@@ -46,6 +47,11 @@ public class Player : MonoBehaviour
         if(_cc == null)
         {
             Debug.LogError("No character controller found");
+        }
+        //faun = new Fauna();
+        if (faun != null)
+        {
+            faun.SpawnFauna();
         }
     }
 
